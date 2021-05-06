@@ -15,25 +15,29 @@ url = "http://#{username}:#{authkey}@hub.crossbrowsertesting.com/wd/hub"
 start_tunnel(username,authkey)
 
 Capybara.register_driver 'selenium_remote_cctest'.to_sym do |app|
-  caps = Selenium::WebDriver::Remote::Capabilities.chrome("chromeOptions" => {"prefs" => { "profile.default_content_setting_values.geolocation" => 1 } })
-  caps['name'] = 'Chrome Geolocation Test'
-  caps['build'] = '1.0'
+  caps = Selenium::WebDriver::Remote::Capabilities.new
 
-  caps['browserName'] = 'Chrome'
-  caps["deviceName"] = "Pixel 4A"
-  caps["platformVersion"] = "11.0"
+  # caps = Selenium::WebDriver::Remote::Capabilities.chrome("chromeOptions" => {"prefs" => { "profile.default_content_setting_values.geolocation" => 1 } })
+  caps['name'] = 'Geolocation Tests'
+  caps['build'] = '1.0'
+  # request the latest version of firefox by default
+  # To specify a version add caps['version'] = 'desired version'
+
+  caps["browserName"] = "Chrome"
+  caps["deviceName"] = "Nexus 6"
+  caps["platformVersion"] = "5.0"
   caps["platformName"] = "Android"
+  caps["deviceOrientation"] = "portrait"
   caps['record_video'] = 'true'
   caps['javascriptEnabled'] = 'true'
-  caps['locationContextEnabled'] = 'true'
-  caps['unexpectedAlertBehaviour'] = 'accept'
+  # caps['locationContextEnabled'] = 'true'
+  # caps['unexpectedAlertBehaviour'] = 'accept'
 
   Capybara::Selenium::Driver.new(app,
                                  :browser => :remote,
                                  :url => url,
                                  :desired_capabilities => caps)
 end
-
 
 Capybara.default_driver = 'selenium_remote_cctest'.to_sym
 Capybara.run_server = true
