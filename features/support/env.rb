@@ -15,9 +15,11 @@ url = "http://#{username}:#{authkey}@hub.crossbrowsertesting.com/wd/hub"
 start_tunnel(username,authkey)
 
 Capybara.register_driver 'selenium_remote_cctest'.to_sym do |app|
-  caps = Selenium::WebDriver::Remote::Capabilities.new
+  # When uncommented, Chrome will open sucessfully, but tests fail
+  # caps = Selenium::WebDriver::Remote::Capabilities.new
 
-  # caps = Selenium::WebDriver::Remote::Capabilities.chrome("chromeOptions" => {"prefs" => { "profile.default_content_setting_values.geolocation" => 1 } })
+  # When uncommented, Chrome fails to open sucessfully
+  caps = Selenium::WebDriver::Remote::Capabilities.chrome("chromeOptions" => {"prefs" => { "profile.default_content_setting_values.geolocation" => 1 } })
   caps['name'] = 'Geolocation Tests'
   caps['build'] = '1.0'
   # request the latest version of firefox by default
